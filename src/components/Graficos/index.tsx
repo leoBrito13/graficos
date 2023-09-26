@@ -17,23 +17,17 @@ const Graficos = () =>{
     return(
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <Item><GraficoPie tipo="planos"/></Item>
         </Grid>
-        <Grid item xs={6}>
-          <Item><GraficoBar tipo="planos"/></Item>
-        </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <Item><GraficoPie tipo="crm"/></Item>
         </Grid>
-        <Grid item xs={6}>
-          <Item><GraficoBar tipo="crm"/></Item>
-        </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <Item><GraficoPie tipo="hosts"/></Item>
         </Grid>
-        <Grid item xs={6}>
-          <Item><GraficoBar tipo="hosts"/></Item>
+        <Grid item xs={12}>
+          <Item><GraficoBar tipo="busca" coluna1="Vendas" coluna2="locação"/></Item>
         </Grid>
       </Grid>
     </Box>

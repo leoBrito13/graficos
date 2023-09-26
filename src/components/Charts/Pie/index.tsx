@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Chart } from 'chart.js/auto';
 import { IGrafico } from '../../interfaces/IGrafico';
 import { Pie } from 'react-chartjs-2';
+import loadData from '../../Utils/loadData';
 
 interface Props {
   tipo: string; // Defina os tipos permitidos aqui
@@ -17,22 +18,16 @@ const GraficoPie = ({tipo}:Props) => {
   const chartInstance = useRef<any | null>(null); // Referência para o gráfico Chart.js
   useEffect(() => {
     // Função para carregar os dados do arquivo JSON
-    const loadData = async () => {
+    async function fetchData() {
       try {
-        //const response = await fetch(`/data-management/graficos/dist/data/${tipo}.json`);
-        const response = await fetch(`/data/${tipo}.json`);
-        if (!response.ok) {
-          throw new Error('Erro ao carregar JSON');
-        }
-        const jsonData = await response.json();
-        setData(jsonData);
+        const dados = await loadData(tipo); // Chame a função importada
+        setData(dados);
       } catch (error) {
-        console.error('Erro ao carregar JSON:', error);
+        // Trate qualquer erro que possa ocorrer durante a busca de dados
+        console.error(error);
       }
-    };
-
-    // Chama a função para carregar os dados
-    loadData();
+    }
+    fetchData();
   }, [tipo]);
 
   useEffect(() => {

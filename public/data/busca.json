@@ -1,0 +1,12 @@
+[
+    {
+       "label":"1ªsemestre",
+        "valor1":34,
+        "valor2":40
+    },
+    {
+        "label":"2ªsemestre",
+        "valor1":30,
+        "valor2":40
+    }
+]

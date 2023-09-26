@@ -1,37 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { IGrafico } from '../../interfaces/IGrafico';
+import { IBarchart } from '../../interfaces/IBarchart';
+import loadData from '../../Utils/loadData';
 
 interface Props {
   tipo: string; // Defina os tipos permitidos aqui
+  coluna1: string,
+  coluna2: string
 }
 
-const GraficoBar = ({ tipo }: Props) => {
-  const [data, setData] = useState<IGrafico>({
-    coluna1: 0,
-    coluna2: 0,
+const GraficoBar = ({ tipo,coluna1,coluna2 }: Props) => {
+  const [data, setData] = useState<IBarchart>({
+    label:"",
+    valor1: 0,
+    valor2: 0,
   });
 
   useEffect(() => {
-    const loadData = async () => {
+    async function fetchData() {
       try {
-        //const response = await fetch(`/data-management/graficos/dist/data/${tipo}.json`);
-        const response = await fetch(`/data/${tipo}.json`);
-        if (!response.ok) {
-          throw new Error('Erro ao carregar JSON');
-        }
-        const jsonData = await response.json();
-        setData(jsonData);
+        const dados = await loadData(tipo); // Chame a função importada
+        setData(dados);
       } catch (error) {
-        console.error('Erro ao carregar JSON:', error);
+        // Trate qualquer erro que possa ocorrer durante a busca de dados
+        console.error(error);
       }
-    };
-
-    loadData();
+    }
+    fetchData();
   }, [tipo]);
+  let labels = Object.values(data);
+  labels = Object.values(labels).map(objeto => objeto.label);
 
-  const labels = Object.keys(data);
-  
   return (
     <div>
       <h2 style={{ textAlign: "center" }}>{tipo.charAt(0).toUpperCase() + tipo.slice(1)}</h2>
@@ -41,14 +41,14 @@ const GraficoBar = ({ tipo }: Props) => {
             labels: labels,
             datasets: [
               {
-                label: "Vendas",
+                label: coluna1,
                 backgroundColor: ['#FF6384'], // Cores para cada fatia do gráfico
-                data: Object.values(data),
+                data: Object.values(data).map(objeto => objeto.valor1),
               },
               {
-                label: "Locação",
+                label: coluna2,
                 backgroundColor: [ '#36A2EB'], // Cores para cada fatia do gráfico
-                data: Object.values(data),
+                data: Object.values(data).map(objeto => objeto.valor2),
               },
             ],
           }}
