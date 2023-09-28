@@ -3,31 +3,31 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import GraficoBar from '../Charts/Barchart';
 
+interface Props{
+  dataInicio:string,
+  dataFim:string
+}
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-  }));
+  }))
 
-const Graficos = () =>{
+const Graficos = (props:Props) =>{
     return(
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <Item><GraficoPie tipo="planos"/></Item>
+          <Item><GraficoPie label= "Busca" tipo="busca" datainicio ={props.dataInicio} datafim ={props.dataFim} /></Item>
         </Grid>
         <Grid item xs={4}>
-          <Item><GraficoPie tipo="crm"/></Item>
+          <Item><GraficoPie label= "Imóvel" tipo="imovel" datainicio ={props.dataInicio} datafim ={props.dataFim} /></Item>
         </Grid>
         <Grid item xs={4}>
-          <Item><GraficoPie tipo="hosts"/></Item>
-        </Grid>
-        <Grid item xs={12}>
-          <Item><GraficoBar tipo="busca" coluna1="Vendas" coluna2="locação"/></Item>
+          <Item><GraficoPie label= "Conversão" tipo="conversao" datainicio ={props.dataInicio} datafim ={props.dataFim} /></Item>
         </Grid>
       </Grid>
     </Box>

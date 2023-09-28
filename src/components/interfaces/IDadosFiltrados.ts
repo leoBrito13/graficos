@@ -1,5 +1,4 @@
-export interface IBarchart{
-    label:string;
+export interface IDadosFiltrados{
     valor1:number;
     valor2?:number;
     valor3?:number;

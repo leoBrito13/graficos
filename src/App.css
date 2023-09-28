@@ -1,11 +1,3 @@
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Isso centraliza verticalmente na altura da tela */
-  flex-wrap: wrap;
-}
-
 .App {
   text-align: center;
 }
