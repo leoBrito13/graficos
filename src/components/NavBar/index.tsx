@@ -9,15 +9,13 @@ import TextField from "@mui/material/TextField";
 import getDataMesPassado from "../Utils/getDataMesPassado";
 import getDataOntem from "../Utils/getDataOntem";
 
-interface NavbarProps {
+interface Props {
   onFilterClick: (dataInicio: string, dataFim: string) => void;
 }
 
-function Navbar({ onFilterClick }: NavbarProps) {
-
+const Navbar = ({ onFilterClick }: Props) => {
   const [dataInicio, setDataInicio] = useState(getDataMesPassado()); // Data de início padrão (1 mês atrás)
   const [dataFim, setDataFim] = useState(getDataOntem()); // Data de fim padrão (ontem)
-
   const handleClickBotao = () => {
     // Chame a função onFilterClick com os valores atuais das datas
     onFilterClick(dataInicio, dataFim);
@@ -81,10 +79,9 @@ function Navbar({ onFilterClick }: NavbarProps) {
               alignItems: "center",
               justifyContent: "center",
               margin: "50px auto",
-            }}
-          >
+            }}>
             <div className="nav-buttons">
-              <Link to="/wp-content/themes/floripa/react-components/graficos/page-graficos.php">
+              <Link to="/">
                 <button className="nav-button">Dados</button>
               </Link>
               <Link to="/comparativos">
@@ -96,6 +93,6 @@ function Navbar({ onFilterClick }: NavbarProps) {
       </ThemeProvider>
     </Box>
   );
-}
+};
 
 export default Navbar;

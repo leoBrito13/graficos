@@ -73,7 +73,7 @@ export const data = {
   ],
 };
 
-function StakedBar() {
+const StakedBar = () => {
   return <Bar className='grafico_stakedbar' options={options} data={data} />;
 }
 

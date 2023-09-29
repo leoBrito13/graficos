@@ -16,7 +16,7 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }))
 
-const Graficos = (props:Props) =>{
+const GraficosPizza = (props:Props) =>{
     return(
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
@@ -34,4 +34,4 @@ const Graficos = (props:Props) =>{
     );
 }
 
-export default Graficos;
+export default GraficosPizza;
