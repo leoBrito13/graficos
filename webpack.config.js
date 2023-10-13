@@ -40,10 +40,5 @@ module.exports = {
       title: 'Gráficos',
       template: './public/index.html',
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: 'public/data', to: 'data' },
-      ],
-    }),
   ],
 };

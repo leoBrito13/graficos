@@ -1,9 +1,9 @@
 import formatarData from './formatarData.js';
 
-const getDataOntem = () => {
+const getDatahoje = () => {
     const today = new Date();
-    today.setDate(today.getDate() - 1);
+    today.setDate(today.getDate());
     return formatarData(today);
   };
 
-export default getDataOntem
+export default getDatahoje

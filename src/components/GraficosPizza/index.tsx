@@ -21,13 +21,13 @@ const GraficosPizza = (props:Props) =>{
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <Item><GraficoPie label= "Busca" tipo="busca" datainicio ={props.dataInicio} datafim ={props.dataFim} /></Item>
+          <Item><GraficoPie label= "Busca" tipo="busca-resultado" datainicio ={props.dataInicio} datafim ={props.dataFim} /></Item>
         </Grid>
         <Grid item xs={4}>
-          <Item><GraficoPie label= "Imóvel" tipo="imovel" datainicio ={props.dataInicio} datafim ={props.dataFim} /></Item>
+          <Item><GraficoPie label= "Imóvel" tipo="imovel-detalhe" datainicio ={props.dataInicio} datafim ={props.dataFim} /></Item>
         </Grid>
         <Grid item xs={4}>
-          <Item><GraficoPie label= "Conversão" tipo="conversao" datainicio ={props.dataInicio} datafim ={props.dataFim} /></Item>
+          <Item><GraficoPie label= "Conversão" tipo="lead-form-imovel-contato" datainicio ={props.dataInicio} datafim ={props.dataFim} /></Item>
         </Grid>
       </Grid>
     </Box>

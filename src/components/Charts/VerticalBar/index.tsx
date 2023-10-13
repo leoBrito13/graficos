@@ -1,71 +1,98 @@
-import React from "react";
-import "./index.css";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import { IVerticalChart } from "../../interfaces/IVerticalChart";
+import tratarDadosCombinados from "../../Utils/tratarDadosCombinados";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+interface Props {
+  titulo?:string;
+  legendas?: string[];
+  tipos: string[];
+  dataInicio: string;
+  dataFim: string;
+  tratarDados: boolean;
+}
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top" as const,
+const VerticalBar = (props: Props) => {
+  const [colunas, setColunas] = useState<IVerticalChart>({});
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchDataCombinado() {
+      try {
+        setLoading(true);
+        const domain = window.location.hostname;
+        const cacheKey = `cachedData_${domain}_verticalBar_${props.tipos.join("_")}_${props.dataInicio}_${props.dataFim}`;
+        const cachedData = sessionStorage.getItem(cacheKey);
+        if (cachedData) {
+          const parsedData = JSON.parse(cachedData);
+          setColunas(parsedData);
+        } else {
+          const colunas = await tratarDadosCombinados(
+            props.tipos,
+            props.dataInicio,
+            props.dataFim,
+            props.tratarDados);
+          setColunas(colunas as IVerticalChart);
+          sessionStorage.setItem(cacheKey, JSON.stringify(colunas));
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  fetchDataCombinado();
+  }, [props.dataInicio, props.dataFim, props.tipos]);
+
+  let labels;
+  if (props.legendas === undefined) {
+    labels = Object.keys(colunas);
+  } else {
+    labels = props.legendas;
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        display: false, // Define a legenda como oculta
+      },
+      title: {
+        display: true,
+        text: props.titulo === undefined ?`${labels.join(" | ")}`:props.titulo,
+      },
     },
-    title: {
-      display: true,
-      text: "Posts/Conversão",
+    scales: {
+      x: {
+        stacked: true, // Empilhar as barras horizontalmente
+      },
+      y: {
+        stacked: true, // Empilhar as barras verticalmente
+      },
     },
-  },
-};
+  };
 
-const VerticalBar = (coluna:{ [key: string]: string }) => {
+  const keys = Object.keys(colunas);
+  const data = {
+    labels,
+    datasets: [
+      {
+        data: keys.map((key) => colunas[key].total),
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+      },
+    ],
+  };
 
-    const colunas = [
-        {
-          "Janeiro 2023": "3",
-          "Fevereiro 2023": "2",
-          "Março 2023": "4",
-          "Abril 2023": "4",
-          "Maio 2023": "6",
-          "Junho 2023": "3",
-          "Julho 2023": "2",
-          "Agosto 2023": "15",
-          "Setembro 2023": "9",
-        },
-    ];
-    const labels = Object.keys(colunas[0])
-    const data = {
-        labels,
-        datasets: [
-          {
-            label: "Posts",
-            data: Object.values(colunas[0]),
-            backgroundColor: "#FF6384",
-          },
-          // {
-          //   label: "Conversão",
-          //   data: colunas.map((obj) => obj.conversao),
-          //   backgroundColor: "#36A2EB",
-          // },
-        ],
-      };
-
-  return <Bar className="grafico_verticalbar" options={options} data={data} />;
+  return (
+    <div>
+      {loading ? (
+        <div className="spinner"></div>
+      ) : (
+        <Bar className="grafico_verticalbar" options={options} data={data} />
+      )}
+    </div>
+  );
 };
 
 export default VerticalBar;

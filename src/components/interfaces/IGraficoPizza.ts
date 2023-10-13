@@ -1,6 +1,6 @@
-export interface IGrafico{
+export interface IGraficoPizza{
   coluna1: number;
-  coluna2: number;
+  coluna2?: number;
   coluna3?: number;
   coluna4?: number;
   coluna5?: number;

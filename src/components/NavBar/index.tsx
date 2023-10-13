@@ -7,7 +7,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import TextField from "@mui/material/TextField";
 import getDataMesPassado from "../Utils/getDataMesPassado";
-import getDataOntem from "../Utils/getDataOntem";
+import getDatahoje from "../Utils/getDatahoje";
 
 interface Props {
   onFilterClick: (dataInicio: string, dataFim: string) => void;
@@ -15,7 +15,7 @@ interface Props {
 
 const Navbar = ({ onFilterClick }: Props) => {
   const [dataInicio, setDataInicio] = useState(getDataMesPassado()); // Data de início padrão (1 mês atrás)
-  const [dataFim, setDataFim] = useState(getDataOntem()); // Data de fim padrão (ontem)
+  const [dataFim, setDataFim] = useState(getDatahoje()); // Data de fim padrão (ontem)
   const handleClickBotao = () => {
     // Chame a função onFilterClick com os valores atuais das datas
     onFilterClick(dataInicio, dataFim);
@@ -81,6 +81,7 @@ const Navbar = ({ onFilterClick }: Props) => {
               margin: "50px auto",
             }}>
             <div className="nav-buttons">
+              {/** wp-content/themes/floripa/react-components/graficos/page-graficos.php */}
               <Link to="/">
                 <button className="nav-button">Dados</button>
               </Link>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Chart } from "chart.js/auto";
-import { IGrafico } from "../../interfaces/IGrafico";
+import { IGraficoPizza } from "../../interfaces/IGraficoPizza";
 import loadData from "../../Utils/loadData";
 import "./index.css";
 
@@ -12,36 +12,42 @@ interface Props {
 }
 
 const GraficoPie = (props: Props) => {
-  const [data, setData] = useState<IGrafico>({
+  const [data, setData] = useState<IGraficoPizza>({
     coluna1: 0,
-    coluna2: 0,
-    coluna3: 0,
-    coluna4: 0,
-    coluna5: 0,
   });
   const [loading, setLoading] = useState(false);
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<any | null>(null); // Referência para o gráfico Chart.js
+  
   useEffect(() => {
-    // Função para carregar os dados do arquivo JSON
     async function fetchData() {
       try {
         setLoading(true);
-        const dados = await loadData(
-          props.tipo,
-          props.datainicio,
-          props.datafim
-        );
-        setData(dados);
+        const domain = window.location.hostname;
+        const cacheKey = `cachedData_${domain}_pie_${props.tipo}_${props.datainicio}_${props.datafim}`;
+        const cachedData = sessionStorage.getItem(cacheKey);
+
+        if (cachedData) {
+          const parsedData = JSON.parse(cachedData);
+          setData(parsedData);
+        } else {
+          const dados = await loadData(
+            props.tipo,
+            props.datainicio,
+            props.datafim
+          );
+          setData(dados);
+          sessionStorage.setItem(cacheKey, JSON.stringify(dados));
+        }
       } catch (error) {
-        // Trate qualquer erro que possa ocorrer durante a busca de dados
         console.error(error);
       } finally {
         setLoading(false);
       }
     }
+
     fetchData();
-  }, [props.datainicio, props.datafim]);
+  }, [props.datainicio, props.datafim, props.tipo]);
 
   useEffect(() => {
     // Verifique se o elemento de referência existe
